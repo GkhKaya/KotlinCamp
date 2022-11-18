@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             myTextView.text = "hello"
         }*/
 
-        
+
 
 
 
