@@ -14,7 +14,10 @@ class MainFragment : Fragment() {
         val design = inflater.inflate(R.layout.fragment_main, container, false)
 
         design.startButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.switchingToGameScreen)
+            val user  =Users(1,"gokhan")
+            val transition = MainFragmentDirections.switchingToGameScreen("Gokhan",18,1.78f, true , user)
+
+            Navigation.findNavController(it).navigate(transition)
         }
 
         return design

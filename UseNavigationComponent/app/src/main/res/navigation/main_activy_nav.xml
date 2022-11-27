@@ -28,6 +28,25 @@
             app:destination="@id/resultScreenFragment"
             app:popUpTo="@id/gameScreenFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue="empty name" />
+        <argument
+            android:name="age"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <argument
+            android:name="height"
+            app:argType="float"
+            android:defaultValue="0.0" />
+        <argument
+            android:name="isSingle"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="object"
+            app:argType="com.example.usenavigationcomponent.Users" />
     </fragment>
     <fragment
         android:id="@+id/resultScreenFragment"
