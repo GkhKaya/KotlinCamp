@@ -26,7 +26,7 @@ class GameScreenFragment : Fragment() {
         val incomingIsSingle = bundle.isSingle
         val incomingObject  =bundle.object
 
-        Log.e("incoming Name",incomingName)
+
         Log.e("incoming Name",incomingName)
         Log.e("incoming Age",incomingAge.toString())
         Log.e("incoming Height",incomingHeight.toString())
