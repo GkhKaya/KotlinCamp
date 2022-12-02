@@ -1,4 +1,4 @@
-package com.example.webviewuse
+package com.example.useimageview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,8 +9,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        webView.settings.javaScriptEnabled
+        buttonImageOne.setOnClickListener {
+            imageView.setImageResource(R.drawable.ic_baseline_adb_24)
+        }
 
-        webView.loadUrl("gkhkaya.com")
+        buttonImageTwo.setOnClickListener {
+            imageView.setImageResource(resources.getIdentifier("sgsdg","drawble",packageName))
+
+        }
     }
 }
