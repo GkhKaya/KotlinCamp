@@ -2,35 +2,37 @@ package com.example.usemvvm
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
+import com.example.usemvvm.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var design:ActivityMainBinding
+    private val viewModel:MainActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        design = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        design.mainActivityObject=this
 
-        textViewResult.text="0"
 
-        buttonTotal.setOnClickListener{
-            val requestNumberOne = editTextNumberOne.text.toString()
-            val requestNumberTwo = editTextNumberTwo.text.toString()
+        viewModel.result.observe(this,{ r ->
+            design.calculateResult=r
+        })
 
-            val numberOne = requestNumberOne.toInt()
-            val numberTwo = requestNumberTwo.toInt()
 
-            val total = numberOne+numberTwo
-            textViewResult.text=total.toString()
 
-        }
-        buttonMultiply.setOnClickListener{
-            val requestNumberOne = editTextNumberOne.text.toString()
-            val requestNumberTwo = editTextNumberTwo.text.toString()
+    }
 
-            val numberOne = requestNumberOne.toInt()
-            val numberTwo = requestNumberTwo.toInt()
+    fun buttonTotalClick(requestNumberOne:String,requestNumberTwo:String){
+        viewModel.totalUp(requestNumberOne,requestNumberTwo)
 
-            val multiply = numberOne*numberTwo
-            textViewResult.text=multiply.toString()
-        }
+
+    }
+
+    fun buttonMultiplyClick(requestNumberOne:String,requestNumberTwo:String){
+        viewModel.doMultiply(requestNumberOne,requestNumberTwo)
+
+
     }
 }
