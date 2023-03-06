@@ -1,4 +1,5 @@
-package com.example.noteapp
+//Use with sqlite
+/**package com.example.noteapp
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -13,4 +14,4 @@ class DatabaseHelper(context:Context):SQLiteOpenHelper(context,"note.sqlite",nul
         db?.execSQL("DROP TABLE IF EXISTS notes")
         onCreate(db)
     }
-}
+}**/

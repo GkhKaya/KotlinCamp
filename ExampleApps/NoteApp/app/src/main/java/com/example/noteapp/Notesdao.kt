@@ -1,4 +1,5 @@
-package com.example.noteapp
+//Use with sqlite
+/**package com.example.noteapp
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -50,4 +51,4 @@ class Notesdao {
         db.update("notes",values,"note_id=?", arrayOf(note_id.toString()))
         db.close()
     }
-}
+}**/
