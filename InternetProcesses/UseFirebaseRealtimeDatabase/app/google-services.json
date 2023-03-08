@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "600462068486",
+    "project_id": "kotlincamp",
+    "storage_bucket": "kotlincamp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600462068486:android:77f3e1bc308400a9d96c87",
+        "android_client_info": {
+          "package_name": "com.example.internetnotificationapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600462068486-99uqs63rr49g2f51eqt1cha5fd4lk49f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyjF6U1hXmVsM6RTMJlQe2DwW0kLcsGfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600462068486-99uqs63rr49g2f51eqt1cha5fd4lk49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600462068486:android:233e4945dc7ac376d96c87",
+        "android_client_info": {
+          "package_name": "com.example.usefirebaserealtimedatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600462068486-99uqs63rr49g2f51eqt1cha5fd4lk49f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyjF6U1hXmVsM6RTMJlQe2DwW0kLcsGfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600462068486-99uqs63rr49g2f51eqt1cha5fd4lk49f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
