@@ -1,20 +1,20 @@
 package com.example.contactapp
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.*
 
-class ContactsAdapter(private val mContext: Context,private val contactsList: List<Contacts>):RecyclerView.Adapter<ContactsAdapter.HolderCardDesign>() {
-
+class ContactsAdapter(private val mContext: Context,private val contactsList: List<Contacts>,private val refContacts:DatabaseReference):RecyclerView.Adapter<ContactsAdapter.HolderCardDesign>() {
     inner class HolderCardDesign(design:View):RecyclerView.ViewHolder(design){
         var textViewContactInformation:TextView
         var imageViewMore:ImageView
@@ -44,6 +44,8 @@ class ContactsAdapter(private val mContext: Context,private val contactsList: Li
                     R.id.action_delete->{
                         Snackbar.make(holder.imageViewMore,"Do you want to delete ${contact.contact_name}",Snackbar.LENGTH_SHORT)
                             .setAction("Yes"){
+
+                                refContacts.child(contact.contact_id!!).removeValue()
 
                             }.show()
                         true
@@ -78,6 +80,12 @@ class ContactsAdapter(private val mContext: Context,private val contactsList: Li
         alertDialog.setPositiveButton("Update"){ dialogInterface, i->
             val contact_name = editTextAlertName.text.toString().trim()
             val contact_phone = editTextAlertPhone.text.toString().trim()
+
+            val informations = HashMap<String,Any>()
+            informations.put("contact_name",contact_name)
+            informations.put("contact_phone",contact_phone)
+
+            refContacts.child(contact.contact_id!!).updateChildren(informations)
 
             Toast.makeText(mContext,"$contact_name-$contact_phone", Toast.LENGTH_SHORT).show()
         }

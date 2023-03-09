@@ -1,50 +1,51 @@
 package com.example.contactapp
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.SearchEvent
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.alert_design.view.*
+import com.example.contactapp.databinding.ActivityMainBinding
+import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
 
+    private lateinit var design:ActivityMainBinding
     private lateinit var contactsList:ArrayList<Contacts>
     private lateinit var adapter:ContactsAdapter
+    private lateinit var refContacts: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        design = DataBindingUtil.setContentView(this,R.layout.activity_main)
 
-        toolbar.title="Contact App"
-        setSupportActionBar(toolbar)
+        design.toolbar.title="Contact App"
+        setSupportActionBar(design.toolbar)
 
-        rv.setHasFixedSize(true)
-        rv.layoutManager = LinearLayoutManager(this)
+        design.rv.setHasFixedSize(true)
+        design.rv.layoutManager = LinearLayoutManager(this)
+
+        val db = FirebaseDatabase.getInstance()
+        refContacts = db.getReference("contacts")
 
         contactsList= ArrayList()
 
-        val contact1 = Contacts(1,"Gokhan","123456789")
-        val contact2 = Contacts(1,"Gokhan2","12345645")
-        val contact3 = Contacts(1,"Gokhan3","123345745")
-
-        contactsList.add(contact1)
-        contactsList.add(contact2)
-        contactsList.add(contact3)
-
-        adapter = ContactsAdapter(this,contactsList)
-
-        rv.adapter=adapter
 
 
-        fab.setOnClickListener{
+        adapter = ContactsAdapter(this,contactsList,refContacts)
+
+        design.rv.adapter=adapter
+
+        allContacts()
+
+
+        design.fab.setOnClickListener{
             alertShow()
         }
     }
@@ -71,6 +72,11 @@ class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
             val contact_name = editTextAlertName.text.toString().trim()
             val contact_phone = editTextAlertPhone.text.toString().trim()
 
+            val contact = Contacts("",contact_name,contact_phone)
+
+            refContacts.push().setValue(contact)
+
+
             Toast.makeText(applicationContext,"$contact_name-$contact_phone",Toast.LENGTH_SHORT).show()
         }
         alertDialog.setNegativeButton("Cancel"){ dialogInterface, i->
@@ -79,13 +85,60 @@ class MainActivity : AppCompatActivity(),SearchView.OnQueryTextListener {
         alertDialog.create().show()
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
+    override fun onQueryTextSubmit(query: String): Boolean {
+        makeSearch(query)
         Log.e("Sended search",query!!)
         return true
     }
-
-    override fun onQueryTextChange(newText: String?): Boolean {
+    override fun onQueryTextChange(newText: String): Boolean {
+        makeSearch(newText)
         Log.e("Letter to Letter",newText!!)
         return true
+    }
+
+    fun allContacts(){
+        refContacts.addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                contactsList.clear()
+                for(c in snapshot.children){
+                    val contact = c.getValue(Contacts::class.java)
+
+                    if(contact!=null){
+                        contact.contact_id = c.key
+                        contactsList.add(contact)
+                    }
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    fun makeSearch(searchedWord:String){
+        refContacts.addValueEventListener(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                contactsList.clear()
+                for(c in snapshot.children){
+                    val contact = c.getValue(Contacts::class.java)
+
+                    if(contact!=null){
+                            if(contact.contact_name!!.contains(searchedWord)){
+                                contact.contact_id = c.key
+                                contactsList.add(contact)
+                            }
+
+
+                    }
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 }
